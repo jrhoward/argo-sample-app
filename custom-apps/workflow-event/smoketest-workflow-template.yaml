@@ -1,0 +1,39 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: smoke-test
+  annotations:
+    workflows.argoproj.io/description: >-
+    workflows.argoproj.io/maintainer: '@jrhowd'
+    workflows.argoproj.io/tags: smoketest
+    workflows.argoproj.io/version: '>= 2.9.0'
+spec:
+  entrypoint: smoke-test
+  templates:
+  - name: smoke-test
+    inputs:
+      parameters:
+      - name: servicename
+      - name: namespace
+      - name: port
+    script:
+      image: registry.access.redhat.com/ubi8/ubi-minimal
+      command: [bash]
+      env:
+        - name: SERVICE_NAME
+          value: "{{inputs.parameters.servicename}}"
+        - name: NAMESPACE
+          value: "{{inputs.parameters.namespace}}"
+        - name: PORT
+          value: "{{inputs.parameters.port}}"
+      source: |
+        #!/bin/bash
+
+        set -eox pipefail
+        while [ "$http_status" != "200" ]
+        do 
+          http_status=$( curl -s -o /dev/null -w "%{http_code}" http://${SERVICE_NAME}.${NAMESPACE}:${PORT} )
+          sleep 3
+        done
+        

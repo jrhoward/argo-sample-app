@@ -1,0 +1,3 @@
+apiVersion: v2
+name: custom-app-of-app
+version: 0.0.1

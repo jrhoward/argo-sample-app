@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: custom-app-of-apps
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: alpha-platform
+  project: default
+  source:
+    path: custom-apps/custom-app-base/
+    repoURL: git@github.com:jrhoward/argo-sample-app.git
+    targetRevision: HEAD
+    helm:
+      releaseName: custom-app-base
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    

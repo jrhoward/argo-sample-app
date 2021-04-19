@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: custom-app-2
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/resource-policy: keep
+spec:
+  project: default
+  source:
+    path: custom-apps/custom-app-set/chart
+    repoURL: git@github.com:jrhoward/argo-sample-app.git
+    targetRevision: HEAD
+    helm:
+      releaseName: 'custom-app-2'
+      version: v3
+      valueFiles:
+      -  values/dev/custom-app-2.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: 'alpha-platform'
+  syncPolicy:
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas

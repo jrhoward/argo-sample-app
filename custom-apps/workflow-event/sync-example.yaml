@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: workflow-template-sync-
+  namespace: argo
+spec:
+  entrypoint: argocd-sync-and-wait
+  templates:
+  - name: argocd-sync-and-wait
+    steps:                              # You should only reference external "templates" in a "steps" or "dag" "template".
+      - - name: sync
+          templateRef:                  # You can reference a "template" from another "WorkflowTemplate" using this field
+            name: argocd-sync-and-wait  # This is the name of the "WorkflowTemplate" CRD that contains the "template" you want
+            template: argocd-sync-and-wait # This is the name of the "template" you want to reference
+          arguments:                    # You can pass in arguments as normal
+            parameters:
+              - name: argocd-version
+                value: v1.8.4
+              - name: argocd-server-address
+                value: k3d-argocd-server.argocd:443
+              - name: application-name
+                value: custom-app-2
+              - name: argocd-credentials-secret
+                value: arocd-secret
+              - name: flags
+                value: --insecure
+
+
+# kubectl create secret generic arocd-secret --from-literal=username=admin  --from-literal=password=password -n argo
+# see: https://argoproj.github.io/argo-workflows/workflow-templates/
+# https://argoproj-labs.github.io/argo-workflows-catalog/
