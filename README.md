@@ -1,6 +1,6 @@
 ## ArgoCD Helm Notes
 
-Note: Argo CD will not use helm install to install charts. It will render the chart with helm template and then apply the output with kubectl.
+Note: Argo CD will not use helm install to install charts. It will render the chart with helm template and then apply the output yaml files.
 
 quickstart locally
 
@@ -68,7 +68,7 @@ review finalizer set up
 ```
 
 
-## Argo Workflow
+## Argo Workflow Notes
 
 ```
 kubectl create ns argo
@@ -83,6 +83,6 @@ note: change the `containerRuntimeExecutor` in the configMap to pns , not Docker
 https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.yaml
 
 
-responses can be taken from Artifact repository https://argoproj.github.io/argo-workflows/configure-artifact-repository/
+Responses from workflow events can be taken from an Artifact repository https://argoproj.github.io/argo-workflows/configure-artifact-repository/
 
 see example: https://github.com/sandeepbhojwani/argo/commit/8aee04560514f3882aff1e6e3ffb3cf4447bafc7#diff-4d35bfe66ae0cddc746fba89805c8d6bccc67cbd2d4864ef6bfb2546169ff8a1

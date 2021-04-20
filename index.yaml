@@ -1,0 +1,11 @@
+apiVersion: v1
+entries:
+  custom-app-of-app:
+  - apiVersion: v2
+    created: "2021-04-20T13:40:59.368621+10:00"
+    digest: a857b021d257c8b71ba32d8a16af74e7183e2eedb985cda956ffd562a59efdd3
+    name: custom-app-of-app
+    urls:
+    - https://jrhoward.github.io/argo-sample-app/custom-app-of-app-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-04-20T13:40:59.368111+10:00"
