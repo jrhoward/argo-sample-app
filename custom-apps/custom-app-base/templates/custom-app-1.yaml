@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     path: custom-apps/custom-app-set/chart
-    repoURL: git@github.com:jrhoward/argo-sample-app.git
+    repoURL: https://github.com/jrhoward/argo-sample-app.git
     targetRevision: HEAD
     helm:
       releaseName: 'custom-app-1'
