@@ -1,4 +1,4 @@
-## ArgoCD Helm Notes
+## ArgoCD Helm and Argo Workflow
 
 Note: Argo CD will not use helm install to install charts. It will render the chart with helm template and then apply the output yaml files.
 
@@ -46,6 +46,10 @@ eg:
 
 argocd repo add git@github.com:jrhoward/argo-sample-app.git --ssh-private-key-path ~/.ssh/id_rsa_argo
 
+# or for a public repo
+
+argocd repo add https://github.com/jrhoward/argo-sample-app.git
+
 ```
 
 Add helm repositories that are used, eg.
@@ -62,17 +66,11 @@ patch the configmap with required helm repositories:
 
 repositories: |
   - type: helm
-    name: vault
+    name: hashicorp
     url: https://helm.releases.hashicorp.com
   - type: helm
     name: argo-sample-app
     url: https://jrhoward.github.io/argo-sample-app
-```
-
-review finalizer set up
-```yaml
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
 ```
 
 Create Argo workflow
@@ -84,31 +82,34 @@ kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflo
 
 while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 5 ; done
 
+workflow will be available at https://localhost:2746
+
 ```
 
-change the `containerRuntimeExecutor` in the configMap `workflow-controller-configmap` to pns , not Docker, 
+change the `containerRuntimeExecutor` in the configMap `workflow-controller-configmap` to pns , default is Docker:
 
 ```
 data:
    containerRuntimeExecutor: pns
 ```
 
-see: 
+deploy the sample workflow template
 
-https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-executors.md
+```
 
-https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.yaml
+kubectl apply -f custom-apps/workflow-event/smoketest-workflow-template.yaml
 
-
-Using an artifact repository to store result from workflow
-
- https://argoproj.github.io/argo-workflows/configure-artifact-repository/
-
-see example: https://github.com/sandeepbhojwani/argo/commit/8aee04560514f3882aff1e6e3ffb3cf4447bafc7#diff-4d35bfe66ae0cddc746fba89805c8d6bccc67cbd2d4864ef6bfb2546169ff8a1
-
+```
 
 deploy the custom app of apps
 
 ```
 kubectl apply -f custom-apps/custom-app-base/app-of-apps.yaml
+
+```
+
+review finalizer set up. Do you want to cascade delete when an Application custom resource is deleted ?
+```yaml
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 ```

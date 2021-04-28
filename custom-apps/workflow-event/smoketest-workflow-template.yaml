@@ -8,6 +8,7 @@ metadata:
     workflows.argoproj.io/maintainer: '@jrhowd'
     workflows.argoproj.io/tags: smoketest
     workflows.argoproj.io/version: '>= 2.9.0'
+  namespace: argo
 spec:
   entrypoint: smoke-test
   templates:
@@ -36,4 +37,3 @@ spec:
           http_status=$( curl -s -o /dev/null -w "%{http_code}" http://${SERVICE_NAME}.${NAMESPACE}:${PORT} )
           sleep 3
         done
-        
