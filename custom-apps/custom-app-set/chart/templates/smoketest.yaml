@@ -9,12 +9,12 @@ spec:
   entrypoint: smoke-test
   templates:
   - name: smoke-test
-    steps:                              # You should only reference external "templates" in a "steps" or "dag" "template".
+    steps: 
       - - name: smoke-test
-          templateRef:                  # You can reference a "template" from another "WorkflowTemplate" using this field
-            name: smoke-test  # This is the name of the "WorkflowTemplate" CRD that contains the "template" you want
-            template: smoke-test # This is the name of the "template" you want to reference
-          arguments:                    # You can pass in arguments as normal
+          templateRef: 
+            name: smoke-test
+            template: smoke-test 
+          arguments:
             parameters:
               - name: servicename
                 value: {{ include "custom-app.fullname" . }}
