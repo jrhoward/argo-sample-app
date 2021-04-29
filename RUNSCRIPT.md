@@ -1,3 +1,4 @@
+k3d cluster start argo-brownbag
 kubectx k3d-argo-brownbag
 kubectl cluster-info
 
@@ -59,4 +60,7 @@ gitall 'change custom-app-2 image to v1.17'
 
 ```sh
 kubectl delete -f custom-apps/custom-app-base/app-of-apps.yaml
+
+k3d cluster stop argo-brownbag
 ```
+
