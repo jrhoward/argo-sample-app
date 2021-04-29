@@ -58,6 +58,9 @@ gitall 'change custom-app-2 image to v1.17'
 
 - View diff and sync process in UI.
 
+
+- Review Umbrella Chart technique for third party helm charts See: `third-party/vault-set/chart/`
+
 - Cleanup 
 
 ```sh

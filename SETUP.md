@@ -10,22 +10,24 @@ Prerequisites
 - argocd client ( brew install argocd )
 - helm v3 ( brew install helm )
 - k3d ( brew install k3d )
+- kubectl
 
 
 ```sh
-
+# Launch a local cluster
 k3d cluster create argo-brownbag -a 3
 
+# Deploy ArgoCD
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-# Or using helm v3 ( not validated )
+# Or using helm v3 ( NOT VALIDATED )
  
 helm repo add argo https://argoproj.github.io/argo-helm
 helm install k3d argo/argo-cd -n argocd --create-namespace=true --installCRDs=false
 
 
-#access ui on localhost:8888 in seperate terminal
+#access UI on localhost:8888 in seperate terminal
 while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 5 ; done
 
 # update the admin password / portfowarding must be running
@@ -36,12 +38,15 @@ argocd account update-password --current-password=${argopwd}
 
 
 ```
-# if using private git repo
+if using private git repo
+
 - create an ssh key
 - add public key to bitbucket project
 - deploy the secret key and repo
 
+
 eg:
+
 ```sh
 
 argocd repo add git@github.com:jrhoward/argo-sample-app.git --ssh-private-key-path ~/.ssh/id_rsa_argo
@@ -88,14 +93,14 @@ while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; s
 
 change the `containerRuntimeExecutor` in the configMap `workflow-controller-configmap` to pns , default is Docker:
 
-```
+```yaml
 data:
    containerRuntimeExecutor: pns
 ```
 
 deploy the sample workflow template
 
-```
+```sh
 
 kubectl apply -f custom-apps/workflow-event/smoketest-workflow-template.yaml
 
@@ -103,5 +108,6 @@ kubectl apply -f custom-apps/workflow-event/smoketest-workflow-template.yaml
 
 deploy the custom app of apps
 
-```
+```sh
 kubectl apply -f custom-apps/custom-app-base/app-of-apps.yaml
+````
