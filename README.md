@@ -73,16 +73,16 @@ repositories: |
     url: https://jrhoward.github.io/argo-sample-app
 ```
 
-Create Argo workflow
+Create Argo workflow deployment
 
-```
+```sh
 kubectl create ns argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/quick-start-postgres.yaml
 
 
 while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 5 ; done
 
-workflow will be available at https://localhost:2746
+# workflow UI will be available at https://localhost:2746
 
 ```
 
