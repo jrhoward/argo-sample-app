@@ -1,9 +1,11 @@
+
+```sh
 k3d cluster start argo-brownbag
 kubectx k3d-argo-brownbag
 kubectl cluster-info
+```
+in seperate terminals
 
-split pane vertically
-split pane horizontally
 ```sh
 while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 5 ; done
 
