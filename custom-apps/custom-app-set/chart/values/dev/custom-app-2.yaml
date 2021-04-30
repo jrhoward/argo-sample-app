@@ -2,4 +2,4 @@ image:
   repository: nginx # replace with artifactory image registry
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.19"
+  tag: "1.17"
