@@ -22,7 +22,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 # Or using helm v3 ( NOT VALIDATED )
  
 helm repo add argo https://argoproj.github.io/argo-helm
-helm install k3d argo/argo-cd -n argocd --create-namespace=true --installCRDs=false
+helm install k3d argo/argo-cd -n argocd --create-namespace=true --set=installCRDs=false
 
 
 #access UI on localhost:8888 in seperate terminal
