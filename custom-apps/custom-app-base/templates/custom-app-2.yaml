@@ -18,7 +18,7 @@ spec:
       -  values/dev/custom-app-2.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: 'alpha-platform'
+    namespace: 'argo-samples'
   syncPolicy:
     # automated:
     #   prune: true

@@ -1,7 +1,5 @@
 ## ArgoCD Helm and Argo Workflow
 
-Note: Argo CD will not use helm install to install charts. It will render the chart with helm template and then apply the output yaml files.
-
 Local quickstart
 
 Prerequisites
@@ -28,7 +26,7 @@ helm install k3d argo/argo-cd -n argocd --create-namespace=true --installCRDs=fa
 
 
 #access UI on localhost:8888 in seperate terminal
-while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 5 ; done
+while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 1 ; done
 
 # update the admin password / portfowarding must be running
 argopwd=$( kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d - )
@@ -85,7 +83,7 @@ kubectl create ns argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/quick-start-postgres.yaml
 
 
-while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 5 ; done
+while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 1 ; done
 
 # workflow UI will be available at https://localhost:2746
 

@@ -19,6 +19,6 @@ spec:
               - name: servicename
                 value: {{ include "custom-app.fullname" . }}
               - name: namespace
-                value: alpha-platform
+                value: argo-samples
               - name: port
                 value: {{ .Values.service.port }}

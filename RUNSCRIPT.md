@@ -7,9 +7,9 @@ kubectl cluster-info
 in seperate terminals
 
 ```sh
-while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 5 ; done
+while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 1 ; done
 
-while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 5 ; done
+while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 1 ; done
 ```
 
 - Bootstrap by deploying App of Apps
@@ -25,7 +25,7 @@ kubectl apply -f custom-apps/custom-app-base/app-of-apps.yaml
 - change custom-app-1 image to nginx:1.17
 
 ```sh
-kubectl edit deployment -n alpha-platform custom-app-1
+kubectl edit deployment -n argo-samples custom-app-1
 ```
 
 - review autosync from UI
@@ -33,7 +33,7 @@ kubectl edit deployment -n alpha-platform custom-app-1
 - review autosync from console
 
 ```sh
-kubectl edit deployment -n alpha-platform custom-app-1
+kubectl edit deployment -n argo-samples custom-app-1
 ```
 
 - note image has been reverted back to original
