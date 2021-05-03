@@ -8,7 +8,7 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: alpha-platform
+    namespace: argo-samples
   project: default
   source:
     path: custom-apps/custom-app-base/
