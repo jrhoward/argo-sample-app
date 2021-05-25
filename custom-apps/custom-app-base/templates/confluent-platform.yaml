@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: custom-confluent-platform
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: kafka
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: helm-charts
+    repoURL: https://github.com/jrhoward/kube-bootstrap.git
+    targetRevision: HEAD
+    plugin:
+      name: kustomized-helm
+      env:
+        - name: CHART_ARCHIVE
+          value: confluent-platform-wrapper-0.1.0.tgz
+        - name: RELEASE_NAME
+          value: example
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

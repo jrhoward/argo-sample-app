@@ -1,0 +1,20 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kustomize-argo-workflow
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: argo
+    server:  https://kubernetes.default.svc
+  project: default
+  source:
+    path: terraform/k8s/manifests/kustomize/argo-workflow
+    repoURL: https://github.com/jrhoward/kube-bootstrap.git
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
