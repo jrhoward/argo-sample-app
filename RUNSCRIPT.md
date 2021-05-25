@@ -7,7 +7,7 @@ kubectl cluster-info
 in seperate terminals
 
 ```sh
-while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 1 ; done
+while true ; do kubectl port-forward svc/cluster-argocd-server 8888:80 -n argocd; sleep 1 ; done
 
 while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 1 ; done
 ```
