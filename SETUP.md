@@ -15,18 +15,16 @@ Prerequisites
 # Launch a local cluster
 k3d cluster create argo-brownbag -a 3
 
-# Deploy ArgoCD
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
 
 # Or using helm v3 ( NOT VALIDATED )
  
 helm repo add argo https://argoproj.github.io/argo-helm
-helm install cluster argo/argo-cd -n argocd --create-namespace=true --set=installCRDs=false
+helm install cluster argo/argo-cd -n argocd --create-namespace=true --set=installCRDs=false -f ../kube-bootstrap/terraform/k8s/manifests/argo-overrides/argo-values.yaml
 
 
 #access UI on localhost:8888 in seperate terminal
-while true ; do kubectl port-forward svc/argocd-server 8888:80 -n argocd; sleep 1 ; done
+while true ; do kubectl port-forward svc/cluster-argocd-server 8888:80 -n argocd; sleep 1 ; done
 
 # update the admin password / portfowarding must be running
 argopwd=$( kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d - )
@@ -76,33 +74,24 @@ repositories: |
     url: https://jrhoward.github.io/argo-sample-app
 ```
 
-Create Argo workflow deployment
+Argo workflow is deployed automatically
 
 ```sh
-kubectl create ns argo
-kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/quick-start-postgres.yaml
-
 
 while true ; do kubectl -n argo port-forward deployment/argo-server 2746:2746; sleep 1 ; done
 
 # workflow UI will be available at https://localhost:2746
 
 ```
-
-change the `containerRuntimeExecutor` in the configMap `workflow-controller-configmap` to pns , default is Docker:
+The `containerRuntimeExecutor` in the configMap `workflow-controller-configmap` is automatically configured:
 
 ```yaml
 data:
    containerRuntimeExecutor: pns
 ```
 
-deploy the sample workflow template
+The sample workflow template is automatically deployed: smoketest-workflow-template.yaml
 
-```sh
-
-kubectl apply -f custom-apps/workflow-event/smoketest-workflow-template.yaml
-
-```
 
 deploy the custom app of apps
 
